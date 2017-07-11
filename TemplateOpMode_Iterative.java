@@ -60,36 +60,49 @@ import java.util.Date;
 @TeleOp(name="Template Auto", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 public class TemplateOpMode_Iterative extends OpMode
 {
-    /* Declare OpMode members. */
+   /* Declare OpMode members. */    //Imported
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor motorOne = null;
-    private DcMotor motorTwo = null;
-    private DcMotor motorThree = null;
-    private DcMotor motorFour = null;
+
+    private DcMotor leftMotor = null;
+    private DcMotor rightMotor = null;
+    private DcMotor IntakeMotor = null;
+    private DcMotor lsMotor = null;
+    private DcMotor rsMotor = null; //Declaring variables to an imported hardware object and naming them left and right motor.
+
+
+
+
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
-    @Override
+    @Override //Taking methods and giving it different functions.
     public void init() {
-        telemetry.addData("Status", "Initialized");
+        telemetry.addData("Status", "Initialized"); //Adding new robot state data
 
         /* eg: Initialize the hardware variables. Note that the strings used here as parameters
-         * to 'get' must correspond to the names assigned during the robot configurati
-         * step (using the FTC Robot Controller app on the phone).
+         * to 'get' must correspond to the names assigned during the robot configuration
+         * step (using the FTC Robot Controller app on the phone)
          */
-         motorOne = hardwareMap.dcMotor.get("one");
-         motorTwo = hardwareMap.dcMotor.get("two");
-         motorThree = hardwareMap.dcMotor.get("three");
-         motorFour = hardwareMap.dcMotor.get("four");
+        leftMotor  = hardwareMap.dcMotor.get("left_drive");
+        rightMotor = hardwareMap.dcMotor.get("right_drive");
+        IntakeMotor = hardwareMap.dcMotor.get("particle_intake");
+        lsMotor = hardwareMap.dcMotor.get("left_particle_shooter");
+        rsMotor = hardwareMap.dcMotor.get("right_particle_shooter"); //Assinging HardwareMap object to the right and left drive variables.
+
+
 
         // eg: Set the drive motor directions:
         // Reverse the motor that runs backwards when connected directly to the battery
-          motorOne.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-          motorTwo.setDirection(DcMotor.Direction.REVERSE);
-          motorThree.setDirection(DcMotorSimple.Direction.FORWARD);
-          motorFour.setDirection(DcMotorSimple.Direction.REVERSE);
-        // Set to FORWARD if using AndyMark motors
-        // telemetry.addData("Status", "Initialized");
+
+
+
+        telemetry.addData("Status", "Initialized"); //Adjusting data of robot state
+        leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        rightMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        IntakeMotor.setDirection(DcMotor.Direction.REVERSE);
+        lsMotor.setDirection(DcMotor.Direction.REVERSE);
+        rsMotor.setDirection(DcMotor.Direction.FORWARD);
     }
 
     /*
@@ -106,8 +119,7 @@ public class TemplateOpMode_Iterative extends OpMode
     public void start() {
         runtime.reset();
     }
-
-    /*
+    /*-
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
@@ -115,10 +127,12 @@ public class TemplateOpMode_Iterative extends OpMode
         telemetry.addData("Status", "Running: " + runtime.toString());
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
-         motorOne.setPower(-gamepad1.left_stick_y);
-         motorTwo.setPower(-gamepad1.right_stick_y);
-         motorThree.setPower(-gamepad1.left_stick_y);
-         motorFour.setPower(-gamepad1.right_stick_y);
+        leftMotor.setPower(-gamepad1.left_stick_x); //objects connecting to hardwaremap
+        rightMotor.setPower(-gamepad1.right_stick_y); //objects connecting to hardwaremap
+        IntakeMotor.setPower(-gamepad1.right_trigger); //objects connecting to hardwaremap
+        lsMotor.setPower(-gamepad1.left_trigger); //objects connecting to hardwaremap
+        rsMotor.setPower(-gamepad1.left_trigger); //objects connecting to hardwaremap
+
     }
 
     /*
